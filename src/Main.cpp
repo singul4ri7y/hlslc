@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
 				target = str_temp.replace(0, 2, "");
 			else {
 				std::cout << yellow << "[HLSLC]" << red << "[ERROR]: Multiple targets defined! Last target: \"" << blue << target << red << "\"" << reset << std::endl;
-				return 0;
+				return -1;
 			}
 		}
 		else if(str_temp.find("-E") != std::string::npos) {
@@ -52,14 +52,17 @@ int main(int argc, char** argv) {
 				entryPoint = str_temp.replace(0, 2, "");
 			else {
 				std::cout << yellow << "[HLSLC]" << red << "[ERROR]: Multiple entry points defined! Last EP: \"" << blue << entryPoint << red << "\"" << reset << std::endl;
-				return 0;
+				return -1;
 			}
 		}
 		else {
 			if(currentSwitch == NONE) {
 				if(input.size() == 0u) 
 					input = str_temp;
-				else std::cout << yellow << "[HLSLC]" << red << "[ERROR]: Input file is already defined: \"" << blue << input << red << "\"" << reset << std::endl;
+				else {
+                    std::cout << yellow << "[HLSLC]" << red << "[ERROR]: Input file is already defined: \"" << blue << input << red << "\"" << reset << std::endl;
+                    return -1;
+                }
 			}
 			else if(currentSwitch == OUTPUTS) 
 				outputFiles.push_back(str_temp);
