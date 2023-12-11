@@ -3,7 +3,7 @@
 A simple compiler for High-Level Shading Language, similar to Google's **glslc**, which compiles OpenGL shaders.
 
 ## Purpose of this project: 
-<p align="justify">I wrote this compiler back in the day when I was doing Game Dev. and writing a Game Engine for myself. This compiler was designed to run against hardcore Windows favoring GCC compilers like `TDM GCC` (I know, I know...). There were already a shader compiler for HLSL and it was available in Visual Studio through VS Tools. I was really pissed off on Visual Studio (or maybe Windows, I forgot) and there was no compiler available to compile HLSL code directy (didn't want to use VS Tools either, which will kill the point). So, I decided to write one myself in C++ using the D3D API.</p>
+<p align="justify">I wrote this compiler back in the day when I was doing Game Dev. and writing a Game Engine for myself. This compiler was designed to run against hardcore Windows favoring GCC compilers like <b>TDM GCC</b> (I know, I know...). There were already a shader compiler for HLSL and it was available in Visual Studio through VS Tools. I was really pissed off on Visual Studio (or maybe Windows, I forgot) and there was no compiler available to compile HLSL code directy (didn't want to use VS Tools either, which will kill the point). So, I decided to write one myself in C++ using the Direct3D API.</p>
 
 ## How to use it: 
 Unlike Windows Dev. tools, the compiler is pretty straight forward.
