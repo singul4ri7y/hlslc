@@ -9,8 +9,8 @@ OUTPUT_FILE = bin/hlslc.exe
 
 .PHONY: 
 
-build: create_dir $(SRC_FILES)
-	g++ $^ -ld3dcompiler -o $(OUTPUT_FILE)
+build: $(SRC_FILES) create_dir
+	g++ $< -ld3dcompiler -o $(OUTPUT_FILE)
 
 bin/intm/Main.cpp.obj: $(SRC_FILES)
 	g++ -c $< -O2 -o $@
