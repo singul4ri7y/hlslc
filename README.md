@@ -15,6 +15,12 @@ Unlike Windows Dev. tools, the compiler is pretty straight forward.
 - Use `-T` to specify target shader version. E.g. `-Tps_5_0`. Learn more [here](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/specifying-compiler-targets).
 - Finally use `-I` to provide input files (or provide them before using any of the switches prior mentioned).
 
+**Note:** Default entry point is `main`.
+
+## How to build:
+Simple just call `make` to build the project. The binary 'hlslc.exe' will be outputed to `./bin` directory.
+Compiled against **TDM GCC** with GCC 11.
+
 ## Example use:
 Say, if I want to compile a Geometry Shader named `default_geometry.hlsl` in debug mode, targeting shader version 5.0 and want to generate two files named `default_geometry.cso` and `geometry.cso` respectively, which has entry point (main function) name `voila()` I would use the command like following: 
 ```bash

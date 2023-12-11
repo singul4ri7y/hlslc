@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     BOOL debug = FALSE;
     INT8 currentSwitch = NONE;
     
-    for(register UINT64 i = 1; i < argc; i++) {
+    for(register UINT32 i = 1; i < argc; i++) {
         str_temp = argv[i];
         
         if(str_temp.find("-O") != std::string::npos) 
@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
                 for(register UINT32 i = 0; i < vec_temp.size(); i++) {
                     std::vector<std::string> splited = split(vec_temp[i], '=');
 
-                    defines.push_back(splited[0], splited[1]);
+                    defines.insert(defines.end(), { splited[0], splited[1] });
                 }
             }
         }
@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
     UINT32 definesSize = defines.size();
     
     if(definesSize != 0u) {
-        UIN32 i = 0, size = definesSize / 2;
+        UINT32 i = 0, size = definesSize / 2;
         x_defines = new D3D_SHADER_MACRO[size + 1];
     
         for(; i < size; i++) 
@@ -131,9 +131,8 @@ int main(int argc, char** argv) {
         
         std::cout << yellow << "[HLSLC]" << red << "[ERROR]: Failed to compile shader!" << yellow << " Try fixing the errors." << reset << std::endl;
     } else {
-        for(std::string str : outputFiles) {
+        for(std::string str : outputFiles) 
             D3DWriteBlobToFile(code, std::wstring(str.begin(), str.end()).c_str(), TRUE);
-        }
     }
 
     if(definesSize != 0u) 
