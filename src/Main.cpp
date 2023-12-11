@@ -7,9 +7,9 @@
 // To colorize text.
 #include "termcolor.hpp"
 
-#define OUTPUTS 1
-#define DEFINES 2
-#define NONE -1
+#define OUTPUTS  1
+#define DEFINES  2
+#define NONE    -1
 
 int main(int argc, char** argv);
 std::vector<std::string> split(std::string, char);
@@ -68,12 +68,11 @@ int main(int argc, char** argv) {
                 outputFiles.push_back(str_temp);
             else if(currentSwitch == DEFINES) {
                 vec_temp = split(str_temp, ',');
-                
-                if(vec_temp.size() >= 2u) {
-                    for(register UINT64 j = 0; j < vec_temp.size() - 1u; j += 2) {
-                        defines.push_back(vec_temp[j]);
-                        defines.push_back(vec_temp[j + 1]);
-                    }
+
+                for(register UINT32 i = 0; i < vec_temp.size(); i++) {
+                    std::vector<std::string> splited = split(vec_temp[i], '=');
+
+                    defines.push_back(splited[0], splited[1]);
                 }
             }
         }
@@ -102,14 +101,18 @@ int main(int argc, char** argv) {
     }
     
     D3D_SHADER_MACRO* x_defines = nullptr;
+
+    UINT32 definesSize = defines.size();
     
-    if(defines.size() != 0u) {
-        x_defines = (D3D_SHADER_MACRO*) alloca(sizeof(defines.size() / 2u));
+    if(definesSize != 0u) {
+        UIN32 i = 0, size = definesSize / 2;
+        x_defines = new D3D_SHADER_MACRO[size + 1];
     
-        for(register unsigned int i = 0; i < defines.size(); i += 2) {
-            *x_defines = { defines[i].c_str(), defines[i + 1].c_str() };
-            x_defines++;
-        }
+        for(; i < size; i++) 
+            x_defines[i] = { defines[2 * i].c_str(), defines[2 * i + 1].c_str() };
+
+        // Termination entry.
+        x_defines[i] = { nullptr, nullptr };
     }
     
     UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
@@ -117,7 +120,7 @@ int main(int argc, char** argv) {
     if(debug == TRUE) 
         flags |= D3DCOMPILE_DEBUG;
     
-    ID3DBlob* code = nullptr;
+    ID3DBlob* code   = nullptr;
     ID3DBlob* errors = nullptr;
     
     HRESULT hr = D3DCompileFromFile(std::wstring(input.begin(), input.end()).c_str(), x_defines, (ID3DInclude*)(UINT_PTR) 1, entryPoint.c_str(), target.c_str(), flags, 0, &code, &errors);
@@ -132,6 +135,11 @@ int main(int argc, char** argv) {
             D3DWriteBlobToFile(code, std::wstring(str.begin(), str.end()).c_str(), TRUE);
         }
     }
+
+    if(definesSize != 0u) 
+        delete[] x_defines;
+
+    // Release the blobs.
     
     if(code != nullptr) 
         code -> Release();
